@@ -1,0 +1,12 @@
+
+.app-header-container{
+  text-align: center;
+  background: linear-gradient(to bottom, rgb(99, 94, 94), transparent);
+  padding: 20px 0px;
+}
+
+.app-header-text{
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
