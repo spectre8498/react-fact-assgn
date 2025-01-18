@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getAge } from "../utils/commonfunctions";
+import DialogBox from "./DialogBox";
 
 const CardComponent = ({ user, showItem, setShowIndex, deleteUser, editItem, setEditIndex, resetEditIndex, updateUser }) => {
     const [editableData, setEditableData] = useState({
@@ -16,6 +17,20 @@ const CardComponent = ({ user, showItem, setShowIndex, deleteUser, editItem, set
     const handleSave = () => {
         updateUser(user.id, editableData);
         resetEditIndex();
+    };
+
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const openDialog = () => setIsDialogOpen(true);
+    const closeDialog = () => setIsDialogOpen(false);
+
+    const handleCancel = () => {
+        closeDialog();
+    };
+
+    const handleDelete = () => {
+        deleteUser();
+        closeDialog();
     };
 
     return (
@@ -90,7 +105,7 @@ const CardComponent = ({ user, showItem, setShowIndex, deleteUser, editItem, set
                                 </>
                                 :
                                 <>
-                                    <p onClick={() => deleteUser()}>🗑️</p>
+                                    <p onClick={openDialog}>🗑️</p>
                                     <p onClick={() => setEditIndex()} className={`tooltip-parent ${getAge(user.dob) < 18 ? "disable-acton" : ""}`}>✏️</p>
                                     {/* { getAge(user.dob) < 18 && <p className="card-tooltip">Only Adult can edit</p> } */}
                                 </>
@@ -98,6 +113,15 @@ const CardComponent = ({ user, showItem, setShowIndex, deleteUser, editItem, set
                     </div>
                 </>
             }
+
+            {isDialogOpen && (
+                <DialogBox
+                    message="Are you sure you want to delete this item?"
+                    onClose={closeDialog}
+                    onCancel={handleCancel}
+                    onDelete={handleDelete}
+                />
+            )}
         </div>
     )
 }
